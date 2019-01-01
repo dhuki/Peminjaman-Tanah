@@ -11,11 +11,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ddr.peminjamantanah.Model.User;
 import com.example.ddr.peminjamantanah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -25,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     TextView forgot;
     TextView account;
+    DatabaseReference firebaseDatabase;
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -39,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         account = findViewById(R.id.tf_account);
 
         firebaseAuth = FirebaseAuth.getInstance(); //Inisialisasi Auth
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference("Users");
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,8 +71,38 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!task.isSuccessful()){ //email & password is not correct
                                     Toast.makeText(LoginActivity.this,nomorsewa.getText(),Toast.LENGTH_LONG).show();
                                 } else { //email & password is correct
-                                    startActivity(new Intent(LoginActivity.this,MenuUtamaUserActivity.class)
-                                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+                                    String user_id = firebaseAuth.getCurrentUser().getUid();
+
+                                    firebaseDatabase.orderByChild("id").equalTo(user_id)
+                                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot data : dataSnapshot.getChildren()){
+                                                String key_id = data.getKey();
+                                                String id = data.child("id").getValue().toString();
+                                                String nama = data.child("nama").getValue().toString();
+                                                String nomor = data.child("nomor").getValue().toString();
+
+                                                String KTP = data.child("dokumen").child("dokKTP").getValue().toString();
+                                                String KK = data.child("dokumen").child("dokKK").getValue().toString();
+                                                String BPS = data.child("dokumen").child("dokBPS").getValue().toString();
+                                                String SBP = data.child("dokumen").child("dokSBP").getValue().toString();
+
+                                                User user = new User(key_id,id,nomor,nama, KTP, KK, BPS, SBP); //Make instances
+
+                                                startActivity(new Intent(LoginActivity.this,MenuUtamaUserActivity.class)
+                                                        .putExtra("User", user)
+                                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            Toast.makeText(LoginActivity.this,"Error", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
                             }
                         });

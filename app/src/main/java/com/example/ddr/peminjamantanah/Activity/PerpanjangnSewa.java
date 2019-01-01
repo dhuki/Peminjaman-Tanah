@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.ddr.peminjamantanah.Adapter.PerpanjanganAdapter;
+import com.example.ddr.peminjamantanah.Model.Dokumen;
 import com.example.ddr.peminjamantanah.Model.MenuUtama;
 import com.example.ddr.peminjamantanah.Model.User;
 import com.example.ddr.peminjamantanah.R;
@@ -58,12 +59,15 @@ public class PerpanjangnSewa extends AppCompatActivity{
         Bundle data = getIntent().getExtras();
         user = data.getParcelable("User");
 
-        //Log.d("sss",user.getDokumen().getUrlKTP());
+        Log.d("sss",user.getDokumen().getUrlKK());
 
         mStorage = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(); //root file path
 
-        cekMenu(null, null, null, null);
+        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Kartu Tanda Penduduk (KTP)",user.getDokumen().getUrlKTP()));
+        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Kartu Keluarga (KK)",user.getDokumen().getUrlKTP()));
+        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Bukti Pembayaran Sewa",user.getDokumen().getUrlKTP()));
+        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Surat Bukti Pembayaran",user.getDokumen().getUrlKTP()));
 
         mRecycleView_perpanjangan = findViewById(R.id.recycleview_menu_perpanjangan);
 
@@ -77,32 +81,6 @@ public class PerpanjangnSewa extends AppCompatActivity{
 
         //https://stackoverflow.com/questions/35008860/how-to-pass-values-from-recycleadapter-to-mainactivity-or-other-activities
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessage, new IntentFilter("position"));
-    }
-
-    private void cekMenu(String urlKTP, String urlKK, String urlBPS, String urlSBP) {
-
-        ArrayList<MenuUtama> array = new ArrayList<>();
-
-        if (urlKTP == null && urlKK == null && urlBPS == null && urlSBP == null){
-            list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Kartu Tanda Penduduk (KTP)","unggah"));
-            list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Kartu Keluarga (KK)","Unggah"));
-            list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Bukti Pembayaran Sewa","Unggah"));
-            list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Surat Bukti Pembayaran","Unggah"));
-        } else {
-//            if (urlKTP != null){
-//                list_perpanjangan_sewa.get(position).setSubKeterangan(urlKTP);
-//                mAdaper.notifyItemChanged(position);
-//            } else if (urlKK != null){
-//                list_perpanjangan_sewa.get(position).setSubKeterangan(urlKTP);
-//                mAdaper.notifyItemChanged(position);
-//            } else if (urlBPS != null){
-//                list_perpanjangan_sewa.get(position).setSubKeterangan(urlKTP);
-//                mAdaper.notifyItemChanged(position);
-//            } else if (urlSBP != null){
-//                list_perpanjangan_sewa.get(position).setSubKeterangan(urlKTP);
-//                mAdaper.notifyItemChanged(position);
-//            }
-        }
     }
 
 

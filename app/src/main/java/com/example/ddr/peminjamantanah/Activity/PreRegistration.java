@@ -67,15 +67,10 @@ public class PreRegistration extends AppCompatActivity {
                                 String nama = data.child("nama").getValue().toString();
                                 String nomor = data.child("nomor").getValue().toString();
 
-//                                String KTP = data.child("dokumen").child("dokKTP").getValue().toString();
-//                                String KK = data.child("dokumen").child("dokKK").getValue().toString();
-//                                String BPS = data.child("dokumen").child("dokBPS").getValue().toString();
-//                                String SBP = data.child("dokumen").child("dokSBP").getValue().toString();
-
-                                String KTP = null;
-                                String KK = null;
-                                String BPS = null;
-                                String SBP = null;
+                                String KTP = data.child("dokumen").child("dokKTP").getValue().toString();
+                                String KK = data.child("dokumen").child("dokKK").getValue().toString();
+                                String BPS = data.child("dokumen").child("dokBPS").getValue().toString();
+                                String SBP = data.child("dokumen").child("dokSBP").getValue().toString();
 
                                 User user = new User(key_id,id,nomor,nama, KTP, KK, BPS, SBP); //Make instances
 

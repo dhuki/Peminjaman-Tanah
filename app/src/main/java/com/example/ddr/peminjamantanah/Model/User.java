@@ -11,23 +11,15 @@ public class User implements Parcelable { //We can get more easier by using libr
     private String email;
     private String password;
     private Dokumen dokumen;
-    private String urlKTP;
-    private String urlKK;
-    private String urlBPS;
-    private String urlSBP;
 
-    public User(String key_id, String id, String nomor_sewa, String nama_pemakai, String urlKTP, String urlKK, String urlBPS, String urlSBP) {
+    public User(String key_id, String id, String nomor_sewa, String nama_pemakai, String KTP, String KK, String BPS, String SBP) {
         this.key_id = key_id;
         this.id = id;
         this.nomor_sewa = nomor_sewa;
         this.nama_pemakai = nama_pemakai;
         this.email = "";
         this.password = "";
-        this.urlKTP = "";
-        this.urlKK = "";
-        this.urlBPS = "";
-        this.urlSBP = "";
-        this.dokumen = new Dokumen(urlKTP,urlKK,urlBPS,urlSBP);
+        dokumen = new Dokumen(KTP, KK, BPS, SBP);
     }
 
     protected User(Parcel in) { //for return User in Parcelable
@@ -37,10 +29,7 @@ public class User implements Parcelable { //We can get more easier by using libr
         nama_pemakai = in.readString();
         email = in.readString();
         password = in.readString();
-        urlKTP = in.readString();
-        urlKK = in.readString();
-        urlBPS = in.readString();
-        urlSBP = in.readString();
+        dokumen = in.readParcelable(Dokumen.class.getClassLoader());
     }
 
     @Override
@@ -51,10 +40,7 @@ public class User implements Parcelable { //We can get more easier by using libr
         dest.writeString(nama_pemakai);
         dest.writeString(email);
         dest.writeString(password);
-        dest.writeString(urlKTP);
-        dest.writeString(urlKK);
-        dest.writeString(urlBPS);
-        dest.writeString(urlSBP);
+        dest.writeParcelable(dokumen,flags);
     }
 
     @Override
