@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_background_24px"
+    android:orientation="vertical"
+    tools:context=".Activity.PreRegistration">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/ic_kota_bandung_24px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:fontFamily="@font/century_gothic"
+        android:gravity="center"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:text="REGISTRASI"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edtx_nomor"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/ic_rounded_form"
+            android:fontFamily="@font/ubuntu_light"
+            android:hint="Nomor Sewa Tanah"
+            android:paddingLeft="20dp"
+            android:textColor="#000000"
+            android:textColorHint="#A2A2A2"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_cari"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/ic_button"
+            android:fontFamily="@font/ubuntu_medium"
+            android:text="CARI"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

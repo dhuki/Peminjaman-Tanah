@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "982326425282",
+    "firebase_url": "https://peminjamantanahbro.firebaseio.com",
+    "project_id": "peminjamantanahbro",
+    "storage_bucket": "peminjamantanahbro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982326425282:android:51cc9529297214ec",
+        "android_client_info": {
+          "package_name": "com.example.ddr.peminjamantanah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982326425282-5ela8ibgtm22flndg914f627n54e5v3m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ddr.peminjamantanah",
+            "certificate_hash": "eb5b5de4726c45c7bdcc3e85b4ff51b174559846"
+          }
+        },
+        {
+          "client_id": "982326425282-ee6qdrmi1re9h6sb52eteo27jmirk25a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBl5rz0p4NXlocWCU629snnxWGfglhzjWs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982326425282-ee6qdrmi1re9h6sb52eteo27jmirk25a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
