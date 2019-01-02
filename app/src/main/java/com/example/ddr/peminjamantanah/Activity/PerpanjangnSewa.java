@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -34,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -59,15 +61,21 @@ public class PerpanjangnSewa extends AppCompatActivity{
         Bundle data = getIntent().getExtras();
         user = data.getParcelable("User");
 
-        Log.d("sss",user.getDokumen().getUrlKK());
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("Preferences", MODE_PRIVATE);
+
+        Log.d("sssP", sharedPreferences.getString(user.getKey_id(), "unggah"));
+
+        String retrieveData = sharedPreferences.getString(user.getKey_id(), "unggah"); //"unggah is default value if there is no value in TEXT Pref then put value by unggah"
+        user = gson.fromJson(retrieveData, User.class);
 
         mStorage = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference(); //root file path
 
         list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Kartu Tanda Penduduk (KTP)",user.getDokumen().getUrlKTP()));
-        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Kartu Keluarga (KK)",user.getDokumen().getUrlKTP()));
-        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Bukti Pembayaran Sewa",user.getDokumen().getUrlKTP()));
-        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Surat Bukti Pembayaran",user.getDokumen().getUrlKTP()));
+        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Kartu Keluarga (KK)",user.getDokumen().getUrlKK()));
+        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Bukti Pembayaran Sewa",user.getDokumen().getUrlBPS()));
+        list_perpanjangan_sewa.add(new MenuUtama(R.id.btn_tambah,"Foto copy Surat Bukti Pembayaran",user.getDokumen().getUrlSBP()));
 
         mRecycleView_perpanjangan = findViewById(R.id.recycleview_menu_perpanjangan);
 
@@ -98,7 +106,7 @@ public class PerpanjangnSewa extends AppCompatActivity{
 
         int permissioin = PackageManager.PERMISSION_GRANTED; //output = 0
 
-        Log.d("xxx",req+" "+permissioin);
+        //Log.d("xxx",req+" "+permissioin);
         //in android 5 (lollipop) or lower value 0 0 no need permission
         //in android 6 (marshmallow) or up value -1 0 need permission
 
@@ -135,20 +143,6 @@ public class PerpanjangnSewa extends AppCompatActivity{
         //data != null means data was selected and not null
         if (requestCode == 86 && resultCode == RESULT_OK && data != null){
             pdfUri = data.getData(); //return local uri of selected file
-
-//            list_perpanjangan_sewa.get(position).setSubKeterangan(pdfUri.toString());
-//            mAdaper.notifyItemChanged(position);
-
-//            if (position == 0){
-//                user.getDokumen().setUrlKTP(pdfUri.toString());
-//            } else if (position == 1){
-//                user.getDokumen().setUrlKK(pdfUri.toString());
-//            } else if (position == 2){
-//                user.getDokumen().setUrlBPS(pdfUri.toString());
-//            } else if (position == 3){
-//                user.getDokumen().setUrlSBP(pdfUri.toString());
-//            }
-
             upload(pdfUri);
         } else {
             Toast.makeText(this,"Select a file",Toast.LENGTH_SHORT).show();
@@ -180,11 +174,30 @@ public class PerpanjangnSewa extends AppCompatActivity{
 
                         mAdaper.notifyItemChanged(position);
 
-                        Toast.makeText(PerpanjangnSewa.this,list_perpanjangan_sewa.get(position).getSubKeterangan(),Toast.LENGTH_SHORT).show();
+                        if (position == 0){
+                            user.getDokumen().setUrlKTP(URL);
+                        } else  if (position == 1){
+                            user.getDokumen().setUrlKK(URL);
+                        } else  if (position == 2){
+                            user.getDokumen().setUrlBPS(URL);
+                        } else  if (position == 3){
+                            user.getDokumen().setUrlSBP(URL);
+                        }
+
+                        saveDatatoPreferences(); //save to preferences
                     }
                 });
-
     }
 
+    public void saveDatatoPreferences(){
+        //instance itu penting setiap memanggil gson dan SharedPreferences
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("Preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit(); //instances to save value
+        String json = gson.toJson(user);
+        editor.putString(user.getKey_id(), json); //it will be saved in user.getKey_id() Preferences
+        editor.apply();
+    }
 
 }

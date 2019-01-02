@@ -29,7 +29,7 @@ public class User implements Parcelable { //We can get more easier by using libr
         nama_pemakai = in.readString();
         email = in.readString();
         password = in.readString();
-        dokumen = in.readParcelable(Dokumen.class.getClassLoader());
+        dokumen = in.readParcelable(Dokumen.class.getClassLoader()); //Solve Parcelable class
     }
 
     @Override
@@ -40,7 +40,7 @@ public class User implements Parcelable { //We can get more easier by using libr
         dest.writeString(nama_pemakai);
         dest.writeString(email);
         dest.writeString(password);
-        dest.writeParcelable(dokumen,flags);
+        dest.writeParcelable(dokumen,flags); //Solve Parcelable class
     }
 
     @Override

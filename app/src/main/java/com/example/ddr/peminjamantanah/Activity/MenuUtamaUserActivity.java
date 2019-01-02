@@ -1,13 +1,17 @@
 package com.example.ddr.peminjamantanah.Activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
 import com.example.ddr.peminjamantanah.Adapter.*;
 import com.example.ddr.peminjamantanah.Model.MenuUtama;
 import com.example.ddr.peminjamantanah.Model.User;
 import com.example.ddr.peminjamantanah.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -17,6 +21,7 @@ public class MenuUtamaUserActivity extends AppCompatActivity {
     RecyclerView.LayoutManager muLayoutManager;
     RecyclerView.Adapter muAdapter;
     User user;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,4 +46,17 @@ public class MenuUtamaUserActivity extends AppCompatActivity {
         muAdapter = new MainAdapter(listMenuUtama,this, user);
         muRecycleview.setAdapter(muAdapter); //set adapter to recycleView
     }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//
+//        Gson gson = new Gson();
+//        SharedPreferences sharedPreferences = getSharedPreferences("Preferences", MODE_PRIVATE);
+//
+//        Log.d("sssM", sharedPreferences.getString(user.getKey_id(), "unggah"));
+//
+//        String retrieveData = sharedPreferences.getString(user.getKey_id(), "unggah"); //"unggah is default value if there is no value in TEXT Pref then put value by unggah"
+//        user = gson.fromJson(retrieveData, User.class);
+//    }
 }

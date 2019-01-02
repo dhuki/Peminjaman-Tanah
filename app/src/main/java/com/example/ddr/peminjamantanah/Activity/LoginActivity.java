@@ -1,6 +1,7 @@
 package com.example.ddr.peminjamantanah.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -91,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                                 User user = new User(key_id,id,nomor,nama, KTP, KK, BPS, SBP); //Make instances
 
+                                                saveDatatoPreferences(user);
+
                                                 startActivity(new Intent(LoginActivity.this,MenuUtamaUserActivity.class)
                                                         .putExtra("User", user)
                                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
@@ -115,5 +119,16 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, PreRegistration.class));
             }
         });
+    }
+
+    public void saveDatatoPreferences(User user){
+        SharedPreferences sharedPreferences = getSharedPreferences("Preferences", MODE_PRIVATE); //it will saved in folder Preferences & mode private that means no other apps can change this shared preferences.
+
+        Gson gson = new Gson();
+        String json = gson.toJson(user); //it will convert Object to Json and make it String
+
+        SharedPreferences.Editor editor = sharedPreferences.edit(); //instances to save value
+        editor.putString(user.getKey_id(), json); //it will be saved in user.getKey_id() Preferences Preferences -> user.getKet_id()
+        editor.apply();
     }
 }

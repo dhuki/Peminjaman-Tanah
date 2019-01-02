@@ -3,7 +3,7 @@ package com.example.ddr.peminjamantanah.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Dokumen implements Parcelable {
+public class Dokumen implements Parcelable { //Solve Parcelable class child class must implements Parcelable too
     private String urlKTP;
     private String urlKK;
     private String urlBPS;
